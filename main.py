@@ -3,28 +3,31 @@ from selenium.webdriver.common.by import By
 from dotenv import load_dotenv
 import os
 import time
-from notifypy import Notify
+import http.client, urllib
 
 load_dotenv()
 
 def div_check(driver:webdriver.Chrome):
-        icon = "logo.png"
-        direction = os.path.abspath(os.path.dirname(__file__))
-
+        conn = http.client.HTTPSConnection("api.pushover.net:443")
+        
         driver.get("https://prenotami.esteri.it/Services/Booking/340")
         time.sleep(5)
 
         div = driver.find_element(By.XPATH, "//div[@class='jconfirm jconfirm-light jconfirm-open']")
 
         if div.is_displayed():
-              time.sleep(7200)
+              time.sleep(3600)
               div_check(driver)
         else:
-            notification = Notify()
-            notification.title = "TURNOS DISPONIBLES"
-            notification.message = "HAY TURNOS DISPONIBLES"
-            notification.icon = os.path.join(direction, icon)
-            notification.send()
+            conn.request("POST", "/1/messages.json",
+              urllib.parse.urlencode({
+                "token": os.getenv("APP_TOKEN"),
+                "user": os.getenv("USER_KEY"),
+                "title": "TURNOS",
+                "message": "Hay un turno disponible",
+                "priority": "1"
+              }), { "Content-type": "application/x-www-form-urlencoded" })
+            conn.getresponse()
 
 def main():
     driver = webdriver.Chrome()
