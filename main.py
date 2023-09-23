@@ -8,7 +8,7 @@ from notifypy import Notify
 load_dotenv()
 
 def div_check(driver:webdriver.Chrome):
-        icon = "logo.png"
+        icon = "logo.ico"
         direction = os.path.abspath(os.path.dirname(__file__))
 
         driver.get("https://prenotami.esteri.it/Services/Booking/340")
