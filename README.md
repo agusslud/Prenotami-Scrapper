@@ -1,5 +1,3 @@
-
-![Logo](./logo.ico)
 # Prenot@mi Scrapper
 
 I started this project in order to get an automatic appointment at the Italian Consulate in Cordoba, Argentina.
