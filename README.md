@@ -1,4 +1,5 @@
 
+![Logo](./logo.ico)
 # Prenot@mi Scrapper
 
 I started this project in order to get an automatic appointment at the Italian Consulate in Cordoba, Argentina.
@@ -19,5 +20,18 @@ To run this project, you will need to add the following environment variables to
 
 `IT_PASSWORD`
 
-`IT_NUMBER`
 
+## How to install it
+
+ - [Install Python](https://www.python.org/)
+
+Follow the instructions on the page to install python, then install the dependencies in [Installation](##Installation), create a `.env` file with the variables mentioned above, using this structure
+
+```bash
+  # .env file
+  
+  IT_MAIL="your@mail.com"
+  IT_PASSWORD="yourPassword"
+```
+
+and now you can run the project.
