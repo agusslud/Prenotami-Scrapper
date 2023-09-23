@@ -1,15 +1,16 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from dotenv import load_dotenv
 import os
 import time
-import pywhatkit
+from notifypy import Notify
 
 load_dotenv()
 
 def div_check(driver:webdriver.Chrome):
+        icon = "logo.png"
+        direction = os.path.abspath(os.path.dirname(__file__))
+
         driver.get("https://prenotami.esteri.it/Services/Booking/340")
         time.sleep(5)
 
@@ -19,12 +20,14 @@ def div_check(driver:webdriver.Chrome):
               time.sleep(7200)
               div_check(driver)
         else:
-              msg = "AMIGOOOOOO HAY TURNOS"
-              num = os.getenv("IT_NUMBER")
-              pywhatkit.sendwhatmsg_instantly(num, msg, tab_close=True)
+            notification = Notify()
+            notification.title = "TURNOS DISPONIBLES"
+            notification.message = "HAY TURNOS DISPONIBLES"
+            notification.icon = os.path.join(direction, icon)
+            notification.send()
 
 def main():
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    driver = webdriver.Chrome()
 
     driver.get("https://prenotami.esteri.it/")
 
