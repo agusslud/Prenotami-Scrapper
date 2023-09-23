@@ -14,10 +14,11 @@ def div_check(driver:webdriver.Chrome):
         driver.get("https://prenotami.esteri.it/Services/Booking/340")
         time.sleep(5)
 
-        div = driver.find_element(By.XPATH, "//div[@class='jconfirm jconfirm-light jconfirm-open']")
+        check = driver.current_url
+        page = "https://prenotami.esteri.it/Services"
 
-        if div.is_displayed():
-              time.sleep(7200)
+        if check != page:
+              time.sleep(3600)
               div_check(driver)
         else:
             notification = Notify()
@@ -25,10 +26,9 @@ def div_check(driver:webdriver.Chrome):
             notification.message = "HAY TURNOS DISPONIBLES"
             notification.icon = os.path.join(direction, icon)
             notification.send()
+            time.sleep(5000)
 
-def main():
-    driver = webdriver.Chrome()
-
+def login(driver:webdriver.Chrome):
     driver.get("https://prenotami.esteri.it/")
 
     mail = driver.find_element(By.XPATH, "//input[@name='Email']")
@@ -39,6 +39,19 @@ def main():
     password.send_keys(os.getenv("IT_PASSWORD"))
     send.click()
 
-    div_check(driver)
+def main():
+    driver = webdriver.Chrome()
+
+    login(driver)
+    
+    check = driver.current_url
+    page = "https://prenotami.esteri.it/Home/Login"
+
+    if check != page:
+        div_check(driver)
+    else:
+        time.sleep(5)
+        driver.close()
+        main()
 
 main()
